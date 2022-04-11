@@ -12,23 +12,23 @@ https://seedsecuritylabs.org/Labs_20.04/Networking/Mitnick_Attack/
 
 ## Steps to run the attack
 
-- First setup the docker container
+1. First setup the docker container
 **docker-compose up**
 
-- Switch on to X-terminal
-•	su seed
-•	cd
-•	touch .rhosts
-•	echo <server ip> > .rhosts
-•	chmod 644 .rhosts
+2. Switch on to X-terminal
+  - su seed
+  - cd
+  - touch .rhosts
+  - echo <server ip> > .rhosts
+  - chmod 644 .rhosts
 
-- Now on trusted-server 
-•	su seed
-•	rsh <x-terminal ip> date
+3. Now on trusted-server 
+  - su seed
+  - rsh <x-terminal ip> date
 You would be able to see the date of the x-terminal on server terminal
 
-- Now on x-terminal ping the server or enter the arp command on it to enter the mac address on server (in root folder)
-arp -s [Server’s IP] [Server’s MAC]
+4. Now on x-terminal ping the server or enter the arp command on it to enter the mac address on server (in root folder)
+ - arp -s [Server’s IP] [Server’s MAC]
 
 - Now the first step is to stop the server / syn flood attack
 Once the server is down, go to the attacker and spoof the syn packet to the x-terminal 
