@@ -10,34 +10,48 @@ Hardikkumar Makwana (https://github.com/hardik1410)
 ## References:
 https://seedsecuritylabs.org/Labs_20.04/Networking/Mitnick_Attack/
 
+## Steps to create environment required for Mitnick Attack
+
+1. Setting up docker environment and newtork
+ * docker-compose down
+ * docker-compose build
+ * docker-compose up
+ * dockps
+
+2. Configure X-Terminal to allow free access by trusted-server
+ * docksh container_id_of_XTerminal
+ * su seed
+ * cd
+ * touch .rhosts
+ * echo server_ip > .rhosts
+ * chmod 644 .rhosts
+
+3. On trusted-server, check if our configurations from step 2 work
+ * su seed
+ * rsh x-terminal_ip date
+You would be able to see the date of the x-terminal on server terminal which means server can access X-terminal's remote shell without authentication
+
+4. Now from x-terminal ping the server or register server ip and mac in arp cache (in root folder)
+  * arp -s Server_IP Server_MAC
+  Or
+  * ping Server_IP
+  * arp
+
+5. Silent the server by stopping it or with syn flood attack
+
+The above 5 steps creates the necessary condition that enabled Mitnick to perform his attack
+
+
 ## Steps to run the attack
 
-1. First setup the docker container
-**docker-compose up**
+1. From seed-attacker container, send a spoof packet with SYN message to the X-Terminal, wait and receive the SYN + ACK packet from X - terminal along with sending rsh data packet, and respond with ACK packet to X-terminal to perform a TCP handshake with X-Terminal ( Run spoof_session_syn.py )
+2. After this, X-terminal will send a SYN packet to establish rsh session from it's side, receive the packet and send SYN + ACK message. (Run spoof-synack.py)
+3. Implant a backdoor in X-terminal( Run backdoor.py)
 
-2. Switch on to X-terminal
-  - su seed
-  - cd
-  - touch .rhosts
-  - echo <server ip> > .rhosts
-  - chmod 644 .rhosts
+After performing above 3 steps, attacker can gain access to X-Terminal's remote shell from any machine and do anything!
 
-3. Now on trusted-server 
-  - su seed
-  - rsh <x-terminal ip> date
-You would be able to see the date of the x-terminal on server terminal
+## Detection
+1. Run the script spoof-detection.py on X-terminal
+2. Repeat the attack using above steps.
 
-4. Now on x-terminal ping the server or enter the arp command on it to enter the mac address on server (in root folder)
- - arp -s [Server’s IP] [Server’s MAC]
-
-- Now the first step is to stop the server / syn flood attack
-Once the server is down, go to the attacker and spoof the syn packet to the x-terminal 
-Respond to the SYN+ACK packet
-Send the rsh data packet having the command
-Setup the backdoor having the echo command (check if it is in su seed)
-
-Now for the spoof alert go to the x-terminal and run the spoof-alert script
-Now go to the attacker terminal and run the spoof the script
-
-
-
+You will find that the detection script will alert the X-Terminal system and print the message that it is been send spoof packects.
