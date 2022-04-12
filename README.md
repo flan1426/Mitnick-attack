@@ -10,7 +10,7 @@ Hardikkumar Makwana (https://github.com/hardik1410)
 ## References:
 https://seedsecuritylabs.org/Labs_20.04/Networking/Mitnick_Attack/
 
-## Steps to create environment required for Mitnick Attack
+## Steps to create the required environment for Mitnick Attack
 
 1. Setting up docker environment and newtork
  * docker-compose down
